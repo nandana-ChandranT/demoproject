@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container" style="margin-bottom:100px;">
+<div class="row">
+  <h4 class="text-center">shoping Cart</h4>
+  <div class="col-6 border border-1">
+    <table class="table table-bordered text-center fs-5">
+    <tr>
+      <th colspan="5">Cart Items</th>
+
+
+    </tr>
+    {%for i in c %}
+
+    <tr>
+
+      <td><img src="{{i.product.image.url}}" height="100px" width="100px"></td>
+      <td><b>{{i.product.name}}</b><br>
+      <b>productID:{{i.product.id}}</b><br>
+      <b>Unit price:{{i.product.price}}</b><br>
+        <b> Quantity:{{i.quantity}}*{{i.price}}</b><br></td>
+      <td>Total:{{i.subtotal}}</td>
+      <td>
+        {% if i.quantity < i.product.stock %}
+
+
+        <a href="{% url 'cart:addtocart' i.product.name %}"><i class="fa-solid fa-circle-plus" style="color: #00060f;"></i></a>
+        <a href="{% url 'cart:remove' i.product.name %}"><i class="fa-solid fa-circle-minus" style="color: #00040a;"></i></a>
+        <a href="{% url 'cart:delete' i.product.name %}"><i class="fa-solid fa-trash" style="color: #0a0a0a;"></i></a>
+
+      {% else %}
+       <a href="{% url 'cart:remove' i.product.name %}"><i class="fa-solid fa-circle-minus" style="color: #00040a;"></i></a>
+        <a href="{% url 'cart:delete' i.product.name %}"><i class="fa-solid fa-trash" style="color: #0a0a0a;"></i></a>
+
+      {% endif %}</td>
+
+
+
+    </tr>
+
+    {% endfor %}
+  </table></div>
+  <div class="col-4 ms-3 fs-5" style="position:relative;">
+
+  <table class="table table-bordered">
+    <tr>
+    <th colspan="4">Check Out</th>
+  </tr>
+    <tr> <th> TOTAL AMOUNT:<span style="position:absolute;right:20px;">{{total}}</span></th></tr>
+  </table>
+    <a href=""class="btn btn-danger">place order</a>
+    <a href="{% url 'shop:allcategories' %}" class="btn btn-danger" style="position:absolute;right:20px;">Continue Shoping</a>
+    </div>
+</div>
+</div>
+{% endblock %}
